@@ -1,0 +1,69 @@
+name: Build
+
+# 在推送与 PR 时验证构建，避免把编译不过的代码合入 main。
+# 本工作流只在 GitHub 的 runner 上运行，不需要本机安装 JDK / Android SDK。
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  # 允许在 Actions 页面手动触发一次构建
+  workflow_dispatch:
+
+# 同一分支上的新推送取消仍在跑的旧任务，避免排队浪费额度
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: assembleDebug + lint
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # AGP 9.x 需要 JDK 17+；本地使用 Zulu 21 验证通过。
+      # 注意：Gradle 还会读取 gradle/gradle-daemon-jvm.properties 的 toolchainVersion，
+      # 若该文件要求的版本 runner 上没有，Gradle 会尝试自行下载，可能拖慢或失败。
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v4
+
+      # android-actions/setup-android 会安装 SDK 并接受许可；
+      # 缺失的 platform / build-tools 由 Gradle 按 build.gradle.kts 的声明自动补齐。
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Build debug APK
+        run: ./gradlew :app:assembleDebug --no-daemon --stacktrace
+
+      # lint 配置了 abortOnError = true，一旦有新问题会直接失败，作为质量门槛。
+      - name: Run lint
+        run: ./gradlew :app:lint --no-daemon --stacktrace
+
+      - name: Upload lint report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lint-report
+          path: app/build/reports/lint-results-debug.html
+          if-no-files-found: ignore
+
+      # 便于直接在手机上测试，省去本地构建
+      - name: Upload debug APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: SensorLaunchGuard-debug-apk
+          path: app/build/outputs/apk/debug/app-debug.apk
+          if-no-files-found: error

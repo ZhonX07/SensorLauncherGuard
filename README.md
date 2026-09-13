@@ -27,7 +27,8 @@
 
 ## 安装与使用
 
-1. 安装 `build-artifacts` 中的 APK，并在模块管理器中启用“应用行为守卫”；
+1. 下载 [Releases](https://github.com/ZhonX07/SensorLauncherGuard/releases) 或在 `build-artifacts`
+   目录中自行构建的 APK，并在模块管理器中启用“应用行为守卫”；
 2. 打开模块界面。状态卡显示已连接的框架名称后，选择目标应用的规则；
 3. 首次为某个应用打开规则时，批准框架弹出的作用域申请；
 4. **第一次加入作用域后必须完全结束并重新打开目标应用**，让模块注入目标进程；
@@ -74,9 +75,10 @@ launch decision=BLOCK ...
 [禁止]  [允许（本次）]
 ```
 
-- **允许（本次）**：只放行这一次，不写入任何持久豁免。通知里的动作由 system_server 代发，
-  因此**来源应用的进程即使已被系统回收，点击依然有效**；
-- **禁止**：仅关闭通知，执行与静默拦截相同的效果；
+- **允许（本次）**：不产生**持久**豁免。点击时通知里的动作由 system_server 直接代发，
+  因此**来源应用的进程即使已被系统回收，点击依然有效**；同时会写入一条 30 秒的临时豁免，
+  让支付 SDK 自行重试同一个 Intent 时同样放行——该豁免由过期时间控制，到期即失效；
+- **禁止**：仅关闭通知，执行与静默拦截相同的效果（不会拉起目标，也不会打开模块界面）；
 - 询问无法进行时（目标不是显式 Intent、宿主没有通知权限）自动退回静默拦截，保持「不放行」。
 
 ### 为什么是通知，而不是应用内对话框
@@ -119,14 +121,16 @@ adb logcat -s SensorLaunchGuard
 首次启动目标进程时应看到 `hooks ready for <包名>`，以及各组 hook 的安装数量。命中规则时会看到：
 
 ```text
-blocked activity launch: source=<发起方> target=<目标包> ...
-blocked gyroscope registration type=4
-blocked live gyroscope events type=4
+launch decision=BLOCK operation=startActivity kind=ACTIVITY source=<发起方> target=<目标包> chooser=false action=... scheme=...
 prompted: source=<发起方> target=<目标包>
+blocked gyroscope registration type=4
+blocked gyroscope direct channel type=4
+blocked live gyroscope events type=4
 ```
 
-`prompted:` 表示已弹出询问通知；若只看到 `blocked ...` 而没有 `prompted:`，说明询问被跳过
-（开关未开、目标不明确、或宿主没有通知权限），此时按静默拦截处理。
+`prompted:` 表示已弹出询问通知；若只看到 `launch decision=BLOCK` 而没有 `prompted:`，
+说明询问被跳过（开关未开、目标不明确、或宿主没有通知权限），此时按静默拦截处理。
+放行时同样会记录原因，例如 `launch decision=ALLOW_PERMANENT_EXEMPTION ...`。
 
 若刚批准作用域但没有加载日志，请强行停止并重新打开目标应用。一个进程随后加载 WebView 等额外包时，
 日志会显示 `hooks already installed`，不会重复安装钩子。
@@ -158,7 +162,9 @@ prompted: source=<发起方> target=<目标包>
 - `app/src/main/java/.../ui`：Material 3 应用列表；
 - `app/src/main/java/.../xposed`：模块入口、传感器与跨应用启动 Hook；
 - `app/src/main/resources/META-INF/xposed`：Modern libxposed 入口和模块配置；
-- `build-artifacts`：便于直接安装的构建产物。
+- `tools/icon-preview`：图标渲染与客观比对脚本（改了图标请先看它的 README）；
+- `build-artifacts`：本机构建产物。**位于 `.gitignore` 中，不在版本库内**，
+  需要可安装 APK 请用 Releases 或自行构建。
 
 ## 许可证
 
