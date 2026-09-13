@@ -1,3 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  应用图标前景层：单色盾牌剪影。
+
+  颜色取自 Material 3 主题令牌（与本应用主题同源，种子色 #5B5BD6）：
+  - 前景盾牌 = colorPrimary（日间 #4E4CC9 / 夜间由系统按主题着色）
+  - 背景层   = colorPrimaryContainer 同色系（见 values/colors.xml 的 launcher_background）
+
+  设计约束（经多尺寸渲染比对确定，改动前请先读 tools/icon-preview/README.md）：
+  - 自适应图标画布 108x108，安全区约 20~88；盾牌放在 16~94 之内，避免被启动器遮罩裁切；
+  - 不使用任何内部标记。此前版本在盾牌内画过陀螺仪元素（三横杠+圆点），
+    在 48dp 下会退化成白色噪点——这是图标观感差的主因，不要退回那种做法；
+  - Android 13+ 的主题化图标走 ic_launcher_monochrome.xml，与本文件相互独立。
+-->
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
     android:width="108dp"
     android:height="108dp"
@@ -5,11 +19,5 @@
     android:viewportHeight="108">
     <path
         android:fillColor="#4E4CC9"
-        android:pathData="M54,18L82,28V49c0,18 -11.9,34.7 -28,41 -16.1,-6.3 -28,-23 -28,-41V28z" />
-    <path
-        android:fillColor="#FFFFFF"
-        android:pathData="M47,42h14v5h-14zM47,51h14v5h-14zM47,60h14v5h-14zM41,48h5v11h-5zM62,48h5v11h-5z" />
-    <path
-        android:fillColor="#FFFFFF"
-        android:pathData="M54,34a5,5 0,1 1,0 10,5 5,0 0,1 0,-10zM54,63a5,5 0,1 1,0 10,5 5,0 0,1 0,-10z" />
+        android:pathData="M54,16L88,27L88,52Q88,80 54,94Q20,80 20,52L20,27Z" />
 </vector>

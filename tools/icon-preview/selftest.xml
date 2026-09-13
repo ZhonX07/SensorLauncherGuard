@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp" android:height="108dp"
+    android:viewportWidth="108" android:viewportHeight="108">
+    <!-- 左下：纯矩形（M/L/Z）应为实心方块 -->
+    <path android:fillColor="#CC0000" android:pathData="M10,60 H44 V100 H10 Z" />
+    <!-- 右下：整圆（两个 a 半圆）- 圆心(76,80) r=20 -->
+    <path android:fillColor="#0000CC" android:pathData="M56,80 a20,20 0 1,0 40,0 a20,20 0 1,0 -40,0 Z" />
+    <!-- 右上：四分之一圆 + 直角（经典盾牌右上角）- 圆心(90,50) r=30 -->
+    <path android:fillColor="#008000" android:pathData="M60,30 H90 V50 a0,0 0 0,1 0,0 Z" />
+    <!-- 左上：小圆点（用 f 相对圆弧）圆心(24,24) r=10 -->
+    <path android:fillColor="#FF9900" android:pathData="M14,24 a10,10 0 1,0 20,0 a10,10 0 1,0 -20,0 Z" />
+</vector>

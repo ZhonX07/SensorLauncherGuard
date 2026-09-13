@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- 单色图层：仅保留盾牌轮廓与内部镂空，供系统按壁纸/主题着色（Android 13+）。 -->
+<!--
+  单色图层（Android 13+ 主题化图标）。
+
+  系统会把整层按用户壁纸/主题染成单一颜色，因此这里只需一个纯剪影：
+  填充色会被忽略，但为了保证本机预览工具与 Android 渲染一致，仍写成 #FFFFFF。
+  形状必须与 ic_launcher_foreground.xml 的盾牌完全一致，否则主题化前后图标会变形。
+-->
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
     android:width="108dp"
     android:height="108dp"
@@ -7,6 +13,5 @@
     android:viewportHeight="108">
     <path
         android:fillColor="#FFFFFF"
-        android:fillType="evenOdd"
-        android:pathData="M54,18L82,28V49c0,18 -11.9,34.7 -28,41 -16.1,-6.3 -28,-23 -28,-41V28zM54,24.6L31.5,32.8V49c0,14.9 9.6,28.8 22.5,34.4 12.9,-5.6 22.5,-19.5 22.5,-34.4V32.8zM54,39.5a5,5 0,1 1,0 10,5 5,0 0,1 0,-10zM54,58.5a5,5 0,1 1,0 10,5 5,0 0,1 0,-10z" />
+        android:pathData="M54,16L88,27L88,52Q88,80 54,94Q20,80 20,52L20,27Z" />
 </vector>

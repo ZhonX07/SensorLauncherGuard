@@ -15,5 +15,10 @@
     <color name="on_success_container">#0B5220</color>
     <color name="warning_container">#FFE9C7</color>
     <color name="on_warning_container">#5B3A00</color>
+    <!--
+      自适应图标背景层。与前景盾牌（colorPrimary #4E4CC9）同色系，形成对比。
+      属于 Material 3 主色系下的容器色；若把它改成与前景相同的 #4E4CC9，
+      盾牌会整个消失在背景里（已踩过这个坑）。
+    -->
     <color name="launcher_background">#E2DFFF</color>
 </resources>
