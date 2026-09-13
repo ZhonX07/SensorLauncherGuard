@@ -1,0 +1,19 @@
+<resources>
+    <!-- 种子色（Material Theme Builder）：#C3C1FF -->
+    <color name="primary">#C3C1FF</color>
+    <color name="on_primary">#252277</color>
+    <color name="primary_container">#3B3992</color>
+    <color name="on_primary_container">#E2DFFF</color>
+    <color name="secondary_container">#49454F</color>
+    <color name="on_secondary_container">#E8E0EA</color>
+    <color name="surface">#141218</color>
+    <color name="surface_container">#211F26</color>
+    <color name="on_surface">#E6E1E5</color>
+    <color name="on_surface_variant">#CAC4D0</color>
+    <color name="outline">#938F99</color>
+    <color name="success_container">#173C22</color>
+    <color name="on_success_container">#B9F0C3</color>
+    <color name="warning_container">#4C3512</color>
+    <color name="on_warning_container">#FFDDA8</color>
+    <color name="launcher_background">#252277</color>
+</resources>

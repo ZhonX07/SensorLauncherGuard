@@ -1,0 +1,13 @@
+# 统一换行符，避免 Windows(autocrlf) 与 Linux/macOS 之间产生整文件 diff。
+* text=auto eol=lf
+
+# Windows 批处理与二进制必须保持原样
+*.bat text eol=crlf
+*.jar binary
+*.png binary
+*.webp binary
+*.keystore binary
+
+# 让 GitHub 正确识别生成文件与文档
+gradlew text eol=lf
+*.md text

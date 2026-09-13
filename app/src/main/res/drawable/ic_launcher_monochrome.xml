@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 单色图层：仅保留盾牌轮廓与内部镂空，供系统按壁纸/主题着色（Android 13+）。 -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <path
+        android:fillColor="#FFFFFF"
+        android:fillType="evenOdd"
+        android:pathData="M54,18L82,28V49c0,18 -11.9,34.7 -28,41 -16.1,-6.3 -28,-23 -28,-41V28zM54,24.6L31.5,32.8V49c0,14.9 9.6,28.8 22.5,34.4 12.9,-5.6 22.5,-19.5 22.5,-34.4V32.8zM54,39.5a5,5 0,1 1,0 10,5 5,0 0,1 0,-10zM54,58.5a5,5 0,1 1,0 10,5 5,0 0,1 0,-10z" />
+</vector>

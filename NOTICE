@@ -1,0 +1,31 @@
+应用行为守卫（SensorLauncherGuard）
+Copyright 2026 ZhonX07
+
+This product is licensed under the Apache License, Version 2.0.
+See the LICENSE file for the full license text.
+
+--------------------------------------------------------------------------
+第三方组件声明
+
+本产品包含以下第三方组件：
+
+1. libxposed API / Service
+   Copyright the libxposed authors
+   Licensed under the Apache License, Version 2.0
+   https://github.com/libxposed/api
+   https://github.com/libxposed/service
+
+2. AndroidX libraries (annotation, appcompat, recyclerview, core)
+   Copyright The Android Open Source Project
+   Licensed under the Apache License, Version 2.0
+   https://developer.android.com/jetpack/androidx
+
+3. Material Components for Android
+   Copyright The Android Open Source Project
+   Licensed under the Apache License, Version 2.0
+   https://github.com/material-components/material-components-android
+
+本模块运行于 LSPosed / Vector 等 Xposed 兼容框架之上，但**不包含也不链接**这些框架的
+代码，因此不受其 GPL-3.0 许可证约束。相关框架：
+   https://github.com/LSPosed/LSPosed
+   https://github.com/JingMatrix/Vector

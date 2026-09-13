@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- 状态卡配色：在 themes.xml / values-night/themes.xml 中按明暗主题赋值。 -->
+    <attr name="guardSuccessContainer" format="color" tools:ignore="MissingAttrResourceReference" />
+    <attr name="guardOnSuccessContainer" format="color" tools:ignore="MissingAttrResourceReference" />
+    <attr name="guardWarningContainer" format="color" tools:ignore="MissingAttrResourceReference" />
+    <attr name="guardOnWarningContainer" format="color" tools:ignore="MissingAttrResourceReference" />
+</resources>
