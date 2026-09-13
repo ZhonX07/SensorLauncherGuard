@@ -2,6 +2,21 @@ plugins {
     id("com.android.application")
 }
 
+/**
+ * 签名配置。
+ *
+ * 本地开发：没有配置任何密钥时，release 产物保持 unsigned（与历史行为一致）。
+ * CI 发布：由工作流生成一次性 keystore 并通过环境变量注入，产出可安装的 release APK。
+ *
+ * 说明：CI 用的 keystore 口令是公开的、自签名的，仅用于让 APK「可安装」，
+ * 不具备任何身份保证，也不适合上架应用商店。这是侧载分发（sideload）的常规做法。
+ */
+val keystorePath: String? = System.getenv("SLG_KEYSTORE")
+val keystorePassword: String? = System.getenv("SLG_KEYSTORE_PASSWORD")
+val keystoreAlias: String? = System.getenv("SLG_KEY_ALIAS")
+val keystoreKeyPassword: String? = System.getenv("SLG_KEY_PASSWORD")
+val hasSigningConfig = !keystorePath.isNullOrBlank() && File(keystorePath).exists()
+
 android {
     namespace = "io.github.sensorlaunchguard"
     compileSdk = 37
@@ -17,15 +32,29 @@ android {
         vectorDrawables.useSupportLibrary = true
     }
 
+    signingConfigs {
+        if (hasSigningConfig) {
+            create("ci") {
+                storeFile = File(keystorePath!!)
+                storePassword = keystorePassword
+                keyAlias = keystoreAlias
+                keyPassword = keystoreKeyPassword
+            }
+        }
+    }
+
     buildTypes {
         debug {
             applicationIdSuffix = ".debug"
             versionNameSuffix = "-debug"
+            // 让 debug 与 release 用同一把密钥，避免用户在两者之间切换时遇到签名冲突。
+            if (hasSigningConfig) signingConfig = signingConfigs.getByName("ci")
         }
         release {
             isMinifyEnabled = true
             isShrinkResources = true
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            if (hasSigningConfig) signingConfig = signingConfigs.getByName("ci")
         }
     }
 

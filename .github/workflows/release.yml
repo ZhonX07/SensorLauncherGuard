@@ -1,0 +1,131 @@
+name: Release
+
+# 推送形如 v1.3.1 的 tag 时自动构建并发布 Release。
+# 日常提交只走 build.yml（验证构建），不会产生 Release。
+on:
+  push:
+    tags:
+      - 'v*'
+  # 允许在 Actions 页面重跑发布（例如某次构建失败后）
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: '要发布的 tag（例如 v1.3.1，需已存在）'
+        required: true
+        type: string
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    name: 构建并发布
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.inputs.tag || github.ref }}
+
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v3
+
+      # 生成一次性签名密钥。
+      # 口令在此处是公开的、证书是自签名的——目的只是让产物「可安装」，
+      # 不代表任何身份。release 与 debug 共用这一把，避免用户在两者间切换时签名冲突。
+      # 若要换成你自己的密钥，改为从 repository secrets 读取即可。
+      - name: Generate signing keystore
+        run: |
+          keytool -genkeypair -v \
+            -keystore "$RUNNER_TEMP/release.keystore" \
+            -alias slg -keyalg RSA -keysize 2048 -validity 10000 \
+            -storepass sensorlaunchguard -keypass sensorlaunchguard \
+            -dname "CN=SensorLaunchGuard CI, OU=CI, O=SensorLaunchGuard, L=NA, ST=NA, C=NA"
+
+      - name: Build release APK
+        env:
+          SLG_KEYSTORE: ${{ runner.temp }}/release.keystore
+          SLG_KEYSTORE_PASSWORD: sensorlaunchguard
+          SLG_KEY_ALIAS: slg
+          SLG_KEY_PASSWORD: sensorlaunchguard
+        run: ./gradlew :app:assembleRelease --no-daemon --stacktrace
+
+      - name: Build debug APK
+        env:
+          SLG_KEYSTORE: ${{ runner.temp }}/release.keystore
+          SLG_KEYSTORE_PASSWORD: sensorlaunchguard
+          SLG_KEY_ALIAS: slg
+          SLG_KEY_PASSWORD: sensorlaunchguard
+        run: ./gradlew :app:assembleDebug --no-daemon --stacktrace
+
+      - name: Prepare release assets
+        id: assets
+        run: |
+          set -euo pipefail
+          VERSION=$(grep -oP 'versionName\s*=\s*"\K[^"]+' app/build.gradle.kts | head -1)
+          CODE=$(grep -oP 'versionCode\s*=\s*\K[0-9]+' app/build.gradle.kts | head -1)
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          mkdir -p dist
+          cp app/build/outputs/apk/release/app-release.apk \
+             "dist/SensorLaunchGuard-${VERSION}.apk"
+          cp app/build/outputs/apk/debug/app-debug.apk \
+             "dist/SensorLaunchGuard-${VERSION}-debug.apk"
+          (cd dist && sha256sum *.apk > SHA256SUMS.txt)
+          echo "--- 产物 ---"
+          ls -lh dist
+          cat dist/SHA256SUMS.txt
+
+      # 校验签名，避免把未签名的产物发出去
+      - name: Verify signatures
+        run: |
+          set -euo pipefail
+          APKSIGNER=$(ls "$ANDROID_HOME"/build-tools/*/apksigner | sort -V | tail -1)
+          for f in dist/*.apk; do
+            echo "验证 $f"
+            "$APKSIGNER" verify --print-certs "$f" | grep -E 'Signer #1 certificate (DN|SHA-256)'
+          done
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.event.inputs.tag || github.ref_name }}
+          name: ${{ steps.assets.outputs.version }}
+          generate_release_notes: true
+          fail_on_unmatched_files: true
+          body: |
+            ## 安装
+
+            1. 从下方 Assets 下载 `SensorLaunchGuard-${{ steps.assets.outputs.version }}.apk`（推荐）
+               或 `-debug.apk`（带 `.debug` 后缀，可与正式版共存，便于对比排查）；
+            2. 在 LSPosed / Vector 管理器中启用「应用行为守卫」；
+            3. 打开应用，为需要限制的应用开启规则。首次开启规则时会请求作用域，
+               **批准后需完全结束并重新打开目标应用**才会注入生效。
+
+            详细说明见 [README](https://github.com/${{ github.repository }}/blob/main/README.md)。
+
+            ## 签名说明
+
+            本 APK 使用 CI 生成的自签名证书签名（口令公开），目的是让产物**可安装**。
+            它**不提供任何身份保证**，也不适合上架应用商店。请以本仓库源码自行构建校验。
+            两个 APK 使用同一把密钥，可互相覆盖升级。
+
+            校验下载完整性：对比 `SHA256SUMS.txt`。
+
+            ## 环境要求
+
+            - Android 8.1（API 26）或更高版本；
+            - 支持 **Modern libxposed API 102** 的框架（如 Vector 2.2）。旧版、仅支持
+              legacy Xposed API 的框架无法加载本模块。
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

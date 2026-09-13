@@ -110,7 +110,22 @@ $env:JAVA_HOME="E:\JDK\zulu21.52.15-ca-jdk21.0.12-win_x64"
 libxposed API / service 102.0.0、Material Components 1.14.0。
 
 Debug APK 位于 `app\build\outputs\apk\debug\app-debug.apk`。Release 变体默认未配置私有签名，
-因此产出的是 unsigned APK；发布前请配置自己的 keystore。
+因此本地构建产出的是 unsigned APK；发布前请配置自己的 keystore。
+
+### 发布流程
+
+推一个形如 `v1.3.1` 的 tag 即可自动发布，无需手动打包：
+
+```powershell
+git tag -s v1.3.1 -m "1.3.1"
+git push origin v1.3.1
+```
+
+GitHub Actions 会构建 release + debug 两个 APK、校验签名、计算 SHA256 并创建 Release。
+日常提交只触发 `Build` 工作流（验证构建），不会产生 Release。
+
+CI 使用**一次性生成的自签名证书**（口令公开）让产物可安装，不提供身份保证。
+若要用自己的密钥，把 release.yml 里的 keystore 步骤改为读取 repository secrets 即可。
 
 ## 日志与排错
 
