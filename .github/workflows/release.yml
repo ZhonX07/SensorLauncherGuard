@@ -86,15 +86,20 @@ jobs:
           ls -lh dist
           cat dist/SHA256SUMS.txt
 
-      # 校验签名，避免把未签名的产物发出去
+      # 校验签名，避免把未签名的产物发出去。
+      # 以 apksigner 的退出码为准：只有它返回 0 才算签名有效。
+      # 不要用 `grep ...` 作为判断条件——配合 pipefail 时，grep 未匹配会返回 1 并把整步判失败
+      # （证书输出格式随 apksigner 版本变化，曾因此误判过一次）。
       - name: Verify signatures
         run: |
           set -euo pipefail
           APKSIGNER=$(ls "$ANDROID_HOME"/build-tools/*/apksigner | sort -V | tail -1)
           for f in dist/*.apk; do
-            echo "验证 $f"
-            "$APKSIGNER" verify --print-certs "$f" | grep -E 'Signer #1 certificate (DN|SHA-256)'
+            echo "::group::验证 $f"
+            "$APKSIGNER" verify --verbose --print-certs "$f"
+            echo "::endgroup::"
           done
+          echo "所有 APK 签名校验通过"
 
       - name: Create Release
         uses: softprops/action-gh-release@v2
