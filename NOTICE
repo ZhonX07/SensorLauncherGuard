@@ -25,6 +25,15 @@ See the LICENSE file for the full license text.
    Licensed under the Apache License, Version 2.0
    https://github.com/material-components/material-components-android
 
+4. 应用图标（盾牌图形）
+   作者 seyfdesigner
+   License: CC Attribution
+   https://www.figma.com/@seyfdesigner
+   原始素材为 24x24 SVG，经本仓库 tools/icon-preview 下的脚本缩放并居中到
+   108x108 自适应图标画布（app/src/main/res/drawable/ic_launcher_foreground.xml
+   与 ic_launcher_monochrome.xml）。
+   依 CC Attribution 要求保留上述署名。
+
 本模块运行于 LSPosed / Vector 等 Xposed 兼容框架之上，但**不包含也不链接**这些框架的
 代码，因此不受其 GPL-3.0 许可证约束。相关框架：
    https://github.com/LSPosed/LSPosed
