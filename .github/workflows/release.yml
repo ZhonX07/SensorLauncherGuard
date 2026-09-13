@@ -108,6 +108,11 @@ jobs:
           name: ${{ steps.assets.outputs.version }}
           generate_release_notes: true
           fail_on_unmatched_files: true
+          # 必须显式列出要上传的文件：不写 files 时该 action 不会上传任何东西，
+          # 而且步骤仍报成功（曾因此发布出一个没有任何 Assets 的 Release）。
+          files: |
+            dist/*.apk
+            dist/SHA256SUMS.txt
           body: |
             ## 安装
 
