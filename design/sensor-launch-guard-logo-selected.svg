@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg"
+     width="1254" height="1254" viewBox="0 0 1024 1024"
+     role="img" aria-labelledby="title desc">
+  <title id="title">应用行为守卫 Logo 第一版矢量稿</title>
+  <desc id="desc">环形传感器轨道环绕中央闸门，一条薄荷绿色放行路径穿过闸门并指向外部。</desc>
+
+  <defs>
+    <linearGradient id="orbitGradient" x1="196" y1="170" x2="830" y2="842" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#7772F4"/>
+      <stop offset="0.48" stop-color="#4E4CC9"/>
+      <stop offset="1" stop-color="#6D68EA"/>
+    </linearGradient>
+    <linearGradient id="gateGradient" x1="432" y1="252" x2="650" y2="818" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#615DD9"/>
+      <stop offset="0.55" stop-color="#4E4CC9"/>
+      <stop offset="1" stop-color="#7570EE"/>
+    </linearGradient>
+    <linearGradient id="innerOrbitGradient" x1="160" y1="590" x2="548" y2="682" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#8782FA"/>
+      <stop offset="0.56" stop-color="#706BEA"/>
+      <stop offset="1" stop-color="#514CC8"/>
+    </linearGradient>
+    <linearGradient id="permitGradient" x1="104" y1="420" x2="912" y2="588" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#72E8C9"/>
+      <stop offset="0.52" stop-color="#65E2C1"/>
+      <stop offset="1" stop-color="#55DAB6"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Segmented outer gyroscope orbit. -->
+  <g fill="none" stroke="url(#orbitGradient)" stroke-width="43" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M 298 246 C 404 164 584 161 704 234"/>
+    <path d="M 785 286 C 830 334 852 382 865 443"/>
+    <path d="M 838 635 C 815 680 793 708 770 730"/>
+    <path d="M 709 803 C 545 896 318 829 207 674"/>
+    <path d="M 209 327 C 193 350 181 376 173 403"/>
+  </g>
+
+  <!-- Orbit joints/nodes. -->
+  <g fill="url(#orbitGradient)">
+    <circle cx="250" cy="277" r="40"/>
+    <circle cx="750" cy="264" r="67"/>
+    <circle cx="174" cy="618" r="66"/>
+    <circle cx="744" cy="758" r="43"/>
+  </g>
+
+  <!-- Central controlled gateway. The inner subpath is true negative space. -->
+  <path fill="url(#gateGradient)" fill-rule="evenodd" d="
+    M 465 252
+    Q 450 246 439 256
+    Q 430 265 430 283
+    L 430 704
+    Q 430 727 450 738
+    L 611 813
+    Q 630 822 643 810
+    Q 641 801 641 783
+    L 641 360
+    Q 641 342 625 333
+    L 476 257
+    Q 470 254 465 252
+    Z
+
+    M 496 405
+    Q 484 410 484 426
+    L 484 679
+    Q 484 696 498 702
+    L 561 728
+    Q 574 736 574 717
+    L 574 391
+    Q 574 372 558 380
+    Z"/>
+
+  <!-- Secondary internal orbit ending at the sensor node. -->
+  <path d="M 174 618
+           C 268 548 394 540 469 558
+           C 514 569 540 596 539 628
+           C 538 658 525 678 502 685"
+        fill="none" stroke="url(#innerOrbitGradient)" stroke-width="56"
+        stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="502" cy="685" r="51" fill="url(#innerOrbitGradient)"/>
+
+  <!-- Allowed inter-app route, intentionally placed above the gate. -->
+  <g>
+    <path d="M 179 464
+             L 410 464
+             C 470 464 503 481 548 512
+             C 598 547 647 544 711 544
+             L 823 544"
+          fill="none" stroke="url(#permitGradient)" stroke-width="52"
+          stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="179" cy="464" r="59" fill="url(#permitGradient)"/>
+    <path d="M 803 467
+             Q 789 453 777 465
+             Q 766 477 778 492
+             L 819 537
+             L 778 593
+             Q 766 609 777 622
+             Q 789 634 804 622
+             L 903 554
+             Q 920 544 903 533
+             Z"
+          fill="url(#permitGradient)"/>
+  </g>
+</svg>

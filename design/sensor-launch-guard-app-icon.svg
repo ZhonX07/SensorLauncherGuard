@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">应用行为守卫应用图标</title>
+  <desc id="desc">一条浅薰衣草色的受控轨道围绕深靛色空间，薄荷绿色路径穿过右侧闸口。</desc>
+
+  <!-- Adaptive-icon background: intentionally full bleed, with no baked-in rounded tile. -->
+  <rect width="1024" height="1024" fill="#17145C"/>
+
+  <!--
+    The mark is kept inside the central ~60% safe area.
+    The broken orbit represents both gyroscope motion and an application boundary.
+  -->
+  <g transform="translate(61.44 53.44) scale(0.88)" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <path
+      d="M 706 410
+         L 706 318
+         C 655 260 587 228 512 228
+         C 355 228 228 355 228 512
+         C 228 669 355 796 512 796
+         C 587 796 655 764 706 706
+         L 706 614"
+      stroke="#E2DFFF"
+      stroke-width="96"/>
+
+    <!-- A permitted route crosses the controlled opening without an arrowhead. -->
+    <path
+      d="M 424 552
+         C 500 552 542 508 610 500
+         C 669 493 724 512 806 512"
+      stroke="#69E6C1"
+      stroke-width="78"/>
+  </g>
+</svg>

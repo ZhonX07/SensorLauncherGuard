@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">应用行为守卫单色图标</title>
+  <desc id="desc">用于 Android 主题图标的受控轨道单色剪影。</desc>
+  <g transform="translate(61.44 53.44) scale(0.88)" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round">
+    <path
+      d="M 706 410
+         L 706 318
+         C 655 260 587 228 512 228
+         C 355 228 228 355 228 512
+         C 228 669 355 796 512 796
+         C 587 796 655 764 706 706
+         L 706 614"
+      stroke-width="96"/>
+    <path
+      d="M 424 552
+         C 500 552 542 508 610 500
+         C 669 493 724 512 806 512"
+      stroke-width="78"/>
+  </g>
+</svg>
