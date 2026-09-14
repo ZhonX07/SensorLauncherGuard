@@ -22,7 +22,11 @@ class GuardApplication : Application() {
     override fun onCreate() {
         super.onCreate()
         instance = this
-        DynamicColors.applyToActivitiesIfAvailable(this)
+        // 不启用 DynamicColors.applyToActivitiesIfAvailable()：
+        // 动态取色会用系统壁纸派生的颜色**覆盖**我们声明的 brand 色板，
+        // 而本应用使用固定的品牌配色（靛蓝 / 薄荷 / 淡紫，与图标一致）。
+        // 若要改回跟随系统取色，取消下面这行的注释即可。
+        // DynamicColors.applyToActivitiesIfAvailable(this)
         XposedServiceHelper.registerListener(
             object : XposedServiceHelper.OnServiceListener {
                 override fun onServiceBind(service: XposedService) {

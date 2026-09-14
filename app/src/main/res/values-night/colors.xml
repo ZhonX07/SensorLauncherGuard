@@ -1,19 +1,39 @@
 <resources>
-    <!-- 种子色（Material Theme Builder）：#C3C1FF -->
+    <!--
+      Brand 色板（夜间）。图标颜色不随明暗主题变化，色值角色同 values/colors.xml。
+      种子色（Material Theme Builder）：#C3C1FF
+    -->
+
+    <!-- Primary：夜间以浅靛蓝呈现，保证深底上的可读性 -->
     <color name="primary">#C3C1FF</color>
     <color name="on_primary">#252277</color>
     <color name="primary_container">#3B3992</color>
     <color name="on_primary_container">#E2DFFF</color>
-    <color name="secondary_container">#49454F</color>
-    <color name="on_secondary_container">#E8E0EA</color>
+
+    <!-- Secondary：夜间淡紫提亮 -->
+    <color name="secondary">#C7C2FF</color>
+    <color name="on_secondary">#2C2760</color>
+    <color name="secondary_container">#423D75</color>
+    <color name="on_secondary_container">#E5E1F5</color>
+
+    <!-- Tertiary：夜间薄荷改用深色底 + 浅薄荷字，保持可读 -->
+    <color name="tertiary">#62E3BD</color>
+    <color name="on_tertiary">#00382F</color>
+    <color name="tertiary_container">#005045</color>
+    <color name="on_tertiary_container">#7DFFD6</color>
+
+    <!-- Surface -->
     <color name="surface">#141218</color>
     <color name="surface_container">#211F26</color>
     <color name="on_surface">#E6E1E5</color>
     <color name="on_surface_variant">#CAC4D0</color>
     <color name="outline">#938F99</color>
+
+    <!-- 状态语义色 -->
     <color name="success_container">#173C22</color>
     <color name="on_success_container">#B9F0C3</color>
     <color name="warning_container">#4C3512</color>
     <color name="on_warning_container">#FFDDA8</color>
-    <color name="launcher_background">#252277</color>
+
+    <color name="launcher_background">#17145C</color>
 </resources>

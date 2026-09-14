@@ -1,24 +1,55 @@
 <resources>
-    <!-- 种子色（Material Theme Builder）：#5B5BD6 -->
+    <!--
+      Brand 色板：与应用图标同源（种子色 #5B5BD6）。
+        靛蓝 #4E4CC9 = colorPrimary   图标轨道与网关
+        薄荷 #62E3BD = colorTertiary  图标放行通道 / 应用内强调色
+        淡紫 #8F8BFF = colorSecondary 图标拦截通道
+      图标 drawable 里只能写字面十六进制（vector 的 fillColor 引用不到 color 资源），
+      因此这三个值不定义为命名资源，以免 lint 报 UnusedResources。
+
+      本应用**不启用**动态取色（见 GuardApplication 中的说明），
+      因此下面这套色值就是最终呈现，不会被系统壁纸派生色覆盖。
+    -->
+
+    <!-- Primary：主操作、状态卡（靛蓝） -->
     <color name="primary">#4E4CC9</color>
     <color name="on_primary">#FFFFFF</color>
     <color name="primary_container">#E2DFFF</color>
     <color name="on_primary_container">#17145C</color>
-    <color name="secondary_container">#E5E1EC</color>
-    <color name="on_secondary_container">#1D1A24</color>
+
+    <!-- Secondary：次级强调（淡紫） -->
+    <color name="secondary">#5A55B8</color>
+    <color name="on_secondary">#FFFFFF</color>
+    <color name="secondary_container">#E5E1F5</color>
+    <color name="on_secondary_container">#211C4A</color>
+
+    <!--
+      Tertiary：薄荷强调色。
+      刻意**不**用作主按钮底色：薄荷配白字对比度约 2.0，白字不可读。
+      它只用于「浅底配深色文字」或「深底配浅色文字」的场景。
+    -->
+    <color name="tertiary">#00695C</color>
+    <color name="on_tertiary">#FFFFFF</color>
+    <color name="tertiary_container">#62E3BD</color>
+    <color name="on_tertiary_container">#00382F</color>
+
+    <!-- Surface -->
     <color name="surface">#FFFBFF</color>
-    <color name="surface_container">#F3EDF7</color>
+    <color name="surface_container">#F3EDFB</color>
     <color name="on_surface">#1C1B1F</color>
     <color name="on_surface_variant">#49454F</color>
     <color name="outline">#79747E</color>
+
+    <!-- 状态语义色（本应用自定义，非 Material 标准角色） -->
     <color name="success_container">#D7F8DC</color>
     <color name="on_success_container">#0B5220</color>
     <color name="warning_container">#FFE9C7</color>
     <color name="on_warning_container">#5B3A00</color>
+
     <!--
-      自适应图标背景层。与前景盾牌（colorPrimary #4E4CC9）同色系，形成对比。
-      属于 Material 3 主色系下的容器色；若把它改成与前景相同的 #4E4CC9，
-      盾牌会整个消失在背景里（已踩过这个坑）。
+      自适应图标背景层 = 设计稿指定的深靛 #17145C。
+      前景是浅薰衣草(#E2DFFF)轨道，**必须配深底**：放在浅色背景上会几乎不可见。
+      因此本应用的启动器图标不随明暗主题变化——这是设计稿的刻意选择。
     -->
-    <color name="launcher_background">#E2DFFF</color>
+    <color name="launcher_background">#17145C</color>
 </resources>
