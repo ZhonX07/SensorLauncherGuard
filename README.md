@@ -21,9 +21,14 @@
 
 ## 图标与配色
 
-图标为「受控轨道」徽标：近圆的断环同时表示陀螺仪轨迹与应用边界，右侧断口是闸口，
+图标为「受控轨道」徽标：断环表示陀螺仪轨迹与应用边界，闸口表示跨应用拉起受控，
 一条薄荷绿通道穿过闸口表示「被明确允许的跳转」。设计说明见
 [design/LOGO-SPEC.md](design/LOGO-SPEC.md)，矢量母版与导出件在 `design/` 目录。
+
+自适应图标前景层为**矢量**（`drawable/ic_launcher_foreground.xml`），由
+`design/sensor-launch-guard-logo-selected.svg` 经 `tools/icon-preview/svg-to-vectordrawable.js`
+转换而来：保留原生描边（vector drawable 支持 stroke，无需转填充路径），
+并按 spec 要求把渐变压成品牌三色平色。
 
 色板（`app/src/main/res/values/colors.xml`）：
 
